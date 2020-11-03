@@ -1,0 +1,13 @@
+version: "2"
+services:
+  jenkins:
+    image: jenkinsci/blueocean
+    user: root
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_data:/var/jenkins_home
+      ##### Mac OS X and Linux ONLY #####
+      - /var/run/docker.sock:/var/run/docker.sock

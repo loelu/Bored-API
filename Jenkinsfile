@@ -1,11 +1,14 @@
 pipeline {
-    agent any
-
-    tools {nodejs "nodejs"}
+    agent {
+        docker {
+            image 'node:14'
+        }
+    }
 
     stages {
         stage('Prepare Environment') {
             steps {
+                sh "bash devops/install-docker-and-docker-compose.sh"
                 sh "npm install"
             }
         }
@@ -29,7 +32,14 @@ pipeline {
                 echo "pass unit tests at the moment"
             }
         }
-        stage('Acceptance Tests') {
+        stage('Security Tests with ZAP') {
+            steps {
+                sh "docker-compose up --build -d"
+                sh "docker run --user root --rm -v \$(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://172.17.0.1:5000 -x report.xml || true"
+                sh "docker-compose down"
+            }
+        }
+        stage('Acceptance Test') {
             steps {
                 sh "npm run test"
             }
@@ -39,6 +49,7 @@ pipeline {
         always {
             junit 'test/integration-test-results.xml'
             junit 'test/db-test-results.xml'
+            junit 'report.xml'
         }
         success {
             notifyTeams("Pipeline was successful", "SUCCESS")
