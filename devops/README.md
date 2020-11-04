@@ -32,4 +32,8 @@ npm run scan
 docker run -p 8080:8080 -p 50000:50000 jenkins
 ```
 
-2. 
+or the ready-made environment with blueocean in the the docker-compoy file:
+
+```bash
+docker-compose -f devops/jenkins-docker-compose.yaml up
+```
