@@ -38,19 +38,25 @@ pipeline {
                 sh "docker run --user root --rm -v \$(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://172.17.0.1:5000 -x report.xml || true"
                 sh "docker-compose down"
             }
+            post {
+                always {
+                    junit 'report.xml'
+                }
+            }
         }
         stage('Acceptance Test') {
             steps {
                 sh "npm run test"
             }
+            post {
+                always {
+                    junit 'test/integration-test-results.xml'
+                    junit 'test/db-test-results.xml'
+                }
+            }
         }
     }
     post {
-        always {
-            junit 'test/integration-test-results.xml'
-            junit 'test/db-test-results.xml'
-            junit 'report.xml'
-        }
         success {
             notifyTeams("Pipeline was successful", "SUCCESS")
         }
