@@ -6,7 +6,7 @@ services:
         ports:
             - "27017:27017"
     bored-api:
-        image: bored-api:1.0.0
+        image: bored-api:1.1.0
         environment:
             - NODE_ENV=production
             - MONGODB_URI=mongodb://mongo:27017/boredapi

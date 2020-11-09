@@ -37,3 +37,20 @@ or the ready-made environment with blueocean in the the docker-compoy file:
 ```bash
 docker-compose -f devops/jenkins-docker-compose.yaml up
 ```
+
+## Docker
+
+Build image
+```bash
+docker build -t bored-api:1.1.0 .
+```
+
+Run image
+```bash
+docker run -p 5000:5000 -e "PORT=5000" bored-api:1.1.0
+```
+
+Run docker-compose (after you've built the image)
+```bash
+docker-compose up
+```
