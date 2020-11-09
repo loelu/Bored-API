@@ -4,4 +4,12 @@ docker-compose.yml
 .DS_Store
 .gitignore
 README.md
-node_modules
+node_modules/
+dist/
+devops/
+.docs/
+.scannerwork/
+db/
+test/
+.env.example
+Jenkinsfile
