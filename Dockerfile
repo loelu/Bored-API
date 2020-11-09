@@ -1,5 +1,4 @@
 FROM node:12
-LABEL description="Bored API - App"
 
 WORKDIR /usr/src/app
 
