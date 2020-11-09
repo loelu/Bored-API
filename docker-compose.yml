@@ -1,8 +1,8 @@
-version: "3"
+version: "3.8"
 
 services:
     mongo:
-        image: mongo:latest
+        image: mongo
         ports:
             - "27017:27017"
     bored-api:
