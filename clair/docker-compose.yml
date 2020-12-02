@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+    clair-db:
+        image: postgres:13.1
+        environment:
+            POSTGRES_PASSWORD: ""
+            POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+            - "5432:5432"
+    clair:
+        image: quay.io/coreos/clair:v2.1.6
+        restart: unless-stopped
+        ports:
+            - "6060:6060"
+            - "6061:6061"
+        environment:
+            CLAIR_MODE: combo
+            CLAIR_CONF: /etc/clair/config.yaml
+        volumes:
+            - "./config.yaml:/etc/clair/config.yaml"
+        depends_on:
+            - clair-db
+
