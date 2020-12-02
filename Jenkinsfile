@@ -61,15 +61,21 @@ pipeline {
             }
         }
         stage('Push test tag to dockerhub') {
+            environment {
+                DOCKER_CREDS = credentials('DOCKER_LOGIN')
+            }
             steps {
-                sh "docker login -u viclo -p 172af31c-9dd1-48a1-b922-a8c074006fef"
+                sh "docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW"
                 sh "docker push viclo/boredapi:test"
             }
         }
         stage('Scan image') {
+            environment {
+                DOCKER_CREDS = credentials('DOCKER_LOGIN')
+            }
             steps {
                 sh "make clair-up"
-                sh "make clair-run"
+                sh "make clair-run-test"
             }
             post {
                 always {
@@ -78,8 +84,11 @@ pipeline {
             }
         }
         stage('Push latest tag to dockerhub') {
+            environment {
+                DOCKER_CREDS = credentials('DOCKER_LOGIN')
+            }
             steps {
-                sh "docker login -u viclo -p 172af31c-9dd1-48a1-b922-a8c074006fef"
+                sh "docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW"
                 sh "docker push viclo/boredapi:latest"
             }
         }

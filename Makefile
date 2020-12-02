@@ -4,5 +4,5 @@ clair-up:
 clair-stop:
 	@cd clair && docker-compose down
 
-clair-run:
-	@cd clair && CLAIR_ADDR=localhost DOCKER_USER=viclo DOCKER_PASSWORD=172af31c-9dd1-48a1-b922-a8c074006fef ./klar viclo/boredapi
+clair-run-test:
+	@cd clair && CLAIR_ADDR=localhost DOCKER_USER=$DOCKER_CREDS_USR DOCKER_PASSWORD=$DOCKER_CREDS_PSW ./klar viclo/boredapi:test
