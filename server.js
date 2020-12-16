@@ -28,7 +28,7 @@ app.get('/favicon.ico', (req, res) => {
 // Backend API routes
 app.use(promMid({
 	metricsPath: '/metrics',
-	collectDefaultMetrics: true
+	collectDefaultMetrics: false
 }));
 app.use(require('./src/backend/routes')());
 
