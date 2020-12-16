@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var chalk = require('chalk');
 var config = require('./config');
+const promMid = require("express-prometheus-middleware");
 
 require('dotenv').config();
 
@@ -25,6 +26,10 @@ app.get('/favicon.ico', (req, res) => {
 });
 
 // Backend API routes
+app.use(promMid({
+	metricsPath: '/metrics',
+	collectDefaultMetrics: true
+}));
 app.use(require('./src/backend/routes')());
 
 // Catch any errors
